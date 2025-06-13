@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json.schemastore.org/eslintrc",
+  "root": true,
+  "extends": ["next/core-web-vitals", "turbo", "prettier"],
+  "ignorePatterns": ["**/fixtures/**"],
+  "rules": {
+    "@next/next/no-html-link-for-pages": "off",
+    "quotes": ["error", "single", { "avoidEscape": true }],
+    "jsx-quotes": ["error", "prefer-double"]
+  },
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"],
+      "parser": "@typescript-eslint/parser"
+    }
+  ]
+}
