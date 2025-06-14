@@ -6,45 +6,63 @@
   :root {
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
+
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
+
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
-    --primary: 210 100% 56%;
+
+    --primary: 222.2 47.4% 11.2%;
     --primary-foreground: 210 40% 98%;
+
     --secondary: 210 40% 96%;
     --secondary-foreground: 222.2 84% 4.9%;
+
     --muted: 210 40% 96%;
     --muted-foreground: 215.4 16.3% 46.9%;
+
     --accent: 210 40% 96%;
     --accent-foreground: 222.2 84% 4.9%;
+
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
+
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 210 100% 56%;
+    --ring: 222.2 84% 4.9%;
+
+    --radius: 0.5rem;
   }
 
   .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
+
     --card: 222.2 84% 4.9%;
     --card-foreground: 210 40% 98%;
+
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
-    --primary: 210 100% 56%;
-    --primary-foreground: 222.2 84% 4.9%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
+
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
+
     --accent: 217.2 32.6% 17.5%;
     --accent-foreground: 210 40% 98%;
+
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
+
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 224.3 76.3% 94.1%;
+    --ring: 212.7 26.8% 83.9%;
   }
 }
 
@@ -55,4 +73,61 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Shiki 코드 하이라이팅 스타일 */
+.shiki-container {
+  @apply bg-background;
+}
+
+.shiki-container pre {
+  @apply !bg-transparent p-4 m-0;
+  overflow-x: auto;
+}
+
+.shiki-container code {
+  @apply !bg-transparent;
+  counter-reset: line;
+  display: block;
+}
+
+/* 라인 넘버 스타일 */
+.shiki-container .line-numbers .line::before {
+  counter-increment: line;
+  content: counter(line);
+  @apply inline-block w-8 mr-4 text-right select-none text-muted-foreground;
+}
+
+/* 기본적으로 라이트 모드 스타일 적용 */
+.shiki-container .shiki {
+  background-color: #f6f8fa !important;
+  color: #1f2328 !important;
+}
+
+/* 다크 모드 테마 (명시적으로 .dark 클래스가 있을 때만) */
+.dark .shiki-container .shiki {
+  background-color: #24292e !important;
+  color: #e1e4e8 !important;
+}
+
+/* 코드 블록 스크롤바 스타일 */
+.shiki-container pre::-webkit-scrollbar {
+  height: 8px;
+}
+
+.shiki-container pre::-webkit-scrollbar-track {
+  @apply rounded bg-muted/50;
+}
+
+.shiki-container pre::-webkit-scrollbar-thumb {
+  @apply rounded bg-border hover:bg-border/80;
+}
+
+/* 토큰 색상 커스터마이징 */
+.shiki-container .shiki span[style*='color:#24292e'] {
+  color: var(--shiki-light) !important;
+}
+
+.shiki-container .shiki span[style*='color:#e1e4e8'] {
+  color: var(--shiki-dark) !important;
 }
