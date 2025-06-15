@@ -1,10 +1,13 @@
-'use client'
-
 import React from 'react'
+import {
+  transformerNotationDiff,
+  transformerNotationHighlight,
+} from '@shikijs/transformers'
+import { codeToHtml } from 'shiki'
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
+import { transformerLineNumbers } from '@/lib/shiki-transformers/transformerLineNumbers'
 
-import { CodeBlock } from './CodeBlock'
+import { InstallationTabsClient } from './InstallationTabsClient'
 
 interface InstallationTabsProps {
   componentName: string
@@ -12,7 +15,22 @@ interface InstallationTabsProps {
   sourceCode: string
 }
 
-export function InstallationTabs({
+const highlight = (code: string, lang: 'bash' | 'tsx') => {
+  return codeToHtml(code, {
+    lang,
+    themes: {
+      light: 'github-light',
+      dark: 'monokai',
+    },
+    transformers: [
+      transformerNotationDiff(),
+      transformerNotationHighlight(),
+      transformerLineNumbers(),
+    ],
+  })
+}
+
+export async function InstallationTabs({
   componentName,
   dependencies = [
     '@radix-ui/react-slot',
@@ -23,72 +41,33 @@ export function InstallationTabs({
   sourceCode,
 }: InstallationTabsProps) {
   const lowerComponentName = componentName.toLowerCase()
+  const depsString = dependencies.join(' ')
+  const cliCommand = `npx shadcn-ui@latest add ${lowerComponentName}`
+  const pnpmCommand = `pnpm add ${depsString}`
+  const npmCommand = `npm install ${depsString}`
+  const yarnCommand = `yarn add ${depsString}`
+
+  const [cliCode, pnpmCode, npmCode, yarnCode, sourceCodeHighlighted] =
+    await Promise.all([
+      highlight(cliCommand, 'bash'),
+      highlight(pnpmCommand, 'bash'),
+      highlight(npmCommand, 'bash'),
+      highlight(yarnCommand, 'bash'),
+      highlight(sourceCode, 'tsx'),
+    ])
 
   return (
-    <Tabs defaultValue="cli" className="w-full">
-      <TabsList className="grid w-full grid-cols-2">
-        <TabsTrigger value="cli">CLI</TabsTrigger>
-        <TabsTrigger value="manual">Manual</TabsTrigger>
-      </TabsList>
-
-      <TabsContent value="cli" className="mt-4 space-y-4">
-        <CodeBlock
-          code={`npx shadcn-ui@latest add ${lowerComponentName}`}
-          language="bash"
-          showLineNumbers={false}
-        />
-      </TabsContent>
-
-      <TabsContent value="manual" className="mt-4 space-y-6">
-        <div>
-          <h4 className="mb-3 text-sm font-medium">
-            1. Install the following dependencies:
-          </h4>
-
-          <Tabs defaultValue="pnpm" className="w-full">
-            <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="pnpm">pnpm</TabsTrigger>
-              <TabsTrigger value="npm">npm</TabsTrigger>
-              <TabsTrigger value="yarn">yarn</TabsTrigger>
-            </TabsList>
-
-            <TabsContent value="pnpm" className="mt-2">
-              <CodeBlock
-                code={`pnpm add ${dependencies.join(' ')}`}
-                language="bash"
-                showLineNumbers={false}
-              />
-            </TabsContent>
-
-            <TabsContent value="npm" className="mt-2">
-              <CodeBlock
-                code={`npm install ${dependencies.join(' ')}`}
-                language="bash"
-                showLineNumbers={false}
-              />
-            </TabsContent>
-
-            <TabsContent value="yarn" className="mt-2">
-              <CodeBlock
-                code={`yarn add ${dependencies.join(' ')}`}
-                language="bash"
-                showLineNumbers={false}
-              />
-            </TabsContent>
-          </Tabs>
-        </div>
-
-        <div>
-          <h4 className="mb-3 text-sm font-medium">
-            2. Copy and paste the following code into your project.
-          </h4>
-          <CodeBlock
-            code={sourceCode}
-            language="tsx"
-            title={`components/ui/${lowerComponentName}.tsx`}
-          />
-        </div>
-      </TabsContent>
-    </Tabs>
+    <InstallationTabsClient
+      cliCode={cliCode}
+      rawCliCode={cliCommand}
+      pnpmCode={pnpmCode}
+      rawPnpmCode={pnpmCommand}
+      npmCode={npmCode}
+      rawNpmCode={npmCommand}
+      yarnCode={yarnCode}
+      rawYarnCode={yarnCommand}
+      sourceCode={sourceCodeHighlighted}
+      rawSourceCode={sourceCode}
+    />
   )
 }

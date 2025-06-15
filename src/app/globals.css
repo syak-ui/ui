@@ -4,65 +4,50 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 222.2 84% 4.9%;
-
-    --muted: 210 40% 96%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96%;
-    --accent-foreground: 222.2 84% 4.9%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
-    --radius: 0.5rem;
+    --background: 1 0 0;
+    --foreground: 0.145 0 0;
+    --card: 1 0 0;
+    --card-foreground: 0.145 0 0;
+    --popover: 1 0 0;
+    --popover-foreground: 0.145 0 0;
+    --primary: 0.205 0 0;
+    --primary-foreground: 0.985 0 0;
+    --secondary: 0.97 0 0;
+    --secondary-foreground: 0.205 0 0;
+    --muted: 0.97 0 0;
+    --muted-foreground: 0.556 0 0;
+    --accent: 0.97 0 0;
+    --accent-foreground: 0.205 0 0;
+    --destructive: 0.577 0.245 27.325;
+    --border: 0.922 0 0;
+    --input: 0.922 0 0;
+    --ring: 0.708 0 0;
+    --radius: 0.625rem;
+    --code-bg: 0.98 0 0;
+    --code-fg: 0.145 0 0;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --background: 0.145 0 0;
+    --foreground: 0.985 0 0;
+    --card: 0.205 0 0;
+    --card-foreground: 0.985 0 0;
+    --popover: 0.269 0 0;
+    --popover-foreground: 0.985 0 0;
+    --primary: 0.922 0 0;
+    --primary-foreground: 0.205 0 0;
+    --secondary: 0.269 0 0;
+    --secondary-foreground: 0.985 0 0;
+    --muted: 0.269 0 0;
+    --muted-foreground: 0.708 0 0;
+    --accent: 0.371 0 0;
+    --accent-foreground: 0.985 0 0;
+    --destructive: 0.704 0.191 22.216;
+    --border: 1 0 0 / 0.1;
+    --input: 1 0 0 / 0.15;
+    --ring: 0.556 0 0;
+    --code-bg: 0.2 0 0;
+    --code-fg: 0.708 0 0;
   }
 }
 
@@ -75,59 +60,36 @@
   }
 }
 
-/* Shiki 코드 하이라이팅 스타일 */
-.shiki-container {
-  @apply bg-background;
-}
+@layer components {
+  pre.shiki {
+    @apply font-mono text-[13px] border rounded-lg overflow-x-auto;
+    background-color: oklch(var(--code-bg));
+    padding: 10px 0;
+  }
 
-.shiki-container pre {
-  @apply !bg-transparent p-4 m-0;
-  overflow-x: auto;
-}
+  .dark pre.shiki {
+    background-color: oklch(var(--code-bg));
+  }
 
-.shiki-container code {
-  @apply !bg-transparent;
-  counter-reset: line;
-  display: block;
-}
+  pre.shiki code {
+    counter-reset: line;
+  }
 
-/* 라인 넘버 스타일 */
-.shiki-container .line-numbers .line::before {
-  counter-increment: line;
-  content: counter(line);
-  @apply inline-block w-8 mr-4 text-right select-none text-muted-foreground;
-}
+  pre.shiki .line::before {
+    counter-increment: line;
+    content: counter(line);
 
-/* 기본적으로 라이트 모드 스타일 적용 */
-.shiki-container .shiki {
-  background-color: #f6f8fa !important;
-  color: #1f2328 !important;
-}
+    @apply inline-block w-4 mr-3 text-right select-none shrink-0;
+    color: oklch(var(--muted-foreground) / 0.6);
+  }
 
-/* 다크 모드 테마 (명시적으로 .dark 클래스가 있을 때만) */
-.dark .shiki-container .shiki {
-  background-color: #24292e !important;
-  color: #e1e4e8 !important;
-}
-
-/* 코드 블록 스크롤바 스타일 */
-.shiki-container pre::-webkit-scrollbar {
-  height: 8px;
-}
-
-.shiki-container pre::-webkit-scrollbar-track {
-  @apply rounded bg-muted/50;
-}
-
-.shiki-container pre::-webkit-scrollbar-thumb {
-  @apply rounded bg-border hover:bg-border/80;
-}
-
-/* 토큰 색상 커스터마이징 */
-.shiki-container .shiki span[style*='color:#24292e'] {
-  color: var(--shiki-light) !important;
-}
-
-.shiki-container .shiki span[style*='color:#e1e4e8'] {
-  color: var(--shiki-dark) !important;
+  pre.shiki::-webkit-scrollbar {
+    @apply h-2;
+  }
+  pre.shiki::-webkit-scrollbar-thumb {
+    @apply rounded bg-border;
+  }
+  pre.shiki::-webkit-scrollbar-track {
+    @apply rounded bg-muted;
+  }
 }

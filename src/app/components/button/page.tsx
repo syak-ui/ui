@@ -1,12 +1,11 @@
 import { readDemoCode, readSourceCode } from '@/utils/readSourceCode'
 
 import { Button } from '@/components/ui/Button'
-import { CodeBlock } from '@/components/docs/CodeBlock'
+import { CodePreview } from '@/components/docs/CodePreview'
 import { DocsPage } from '@/components/docs/DocsPage'
 import { DocsPageHeader } from '@/components/docs/DocsPageHeader'
 import { DocsPageSection } from '@/components/docs/DocsPageSection'
 import { DocsPageToc } from '@/components/docs/DocsPageToc'
-import { ExampleCard } from '@/components/docs/ExampleCard'
 import { InstallationTabs } from '@/components/docs/InstallationTabs'
 
 import { AsChildDemo } from './demos/ButtonAsChildDemo'
@@ -21,19 +20,21 @@ export const metadata = {
 
 // 목차 구성
 const tocItems = [
-  { id: 'preview', title: '미리보기' },
+  { id: 'variants', title: 'Variants' },
   { id: 'installation', title: 'Installation' },
   { id: 'usage', title: 'Usage' },
   { id: 'examples', title: 'Examples' },
 ]
 
 export default async function ButtonDocsPage() {
-  // 동적으로 소스 코드 읽기
+  // 페이지에 필요한 모든 소스 코드를 서버에서 미리 읽어옵니다.
   const buttonSourceCode = await readSourceCode('components/ui/Button.tsx')
+  const usageCode =
+    'import { Button } from "@/components/ui/button"\n\nexport default function Page() {\n  return <Button>Button</Button>\n}'
   const iconDemoCode = await readDemoCode('button', 'ButtonIconDemo')
+  const withIconDemoCode = await readDemoCode('button', 'ButtonWithIconDemo')
   const loadingDemoCode = await readDemoCode('button', 'ButtonLoadingDemo')
   const asChildDemoCode = await readDemoCode('button', 'ButtonAsChildDemo')
-  const withIconDemoCode = await readDemoCode('button', 'ButtonWithIconDemo')
 
   return (
     <DocsPage toc={<DocsPageToc items={tocItems} />}>
@@ -42,112 +43,53 @@ export default async function ButtonDocsPage() {
         description="사용자 액션을 트리거하는 클릭 가능한 버튼 컴포넌트입니다."
       />
 
-      {/* 미리보기 */}
-      <DocsPageSection id="preview" title="미리보기">
-        <div className="flex items-center justify-center p-6 border rounded-lg bg-background">
-          <Button>Button</Button>
-        </div>
+      {/* Variants 미리보기 */}
+      <DocsPageSection id="variants" title="Variants">
+        <CodePreview
+          code={
+            '<Button>Default</Button>\n<Button variant="secondary">Secondary</Button>\n<Button variant="destructive">Destructive</Button>\n<Button variant="outline">Outline</Button>\n<Button variant="ghost">Ghost</Button>\n<Button variant="link">Link</Button>'
+          }
+        >
+          <div className="flex flex-wrap gap-2">
+            <Button>Default</Button>
+            <Button variant="secondary">Secondary</Button>
+            <Button variant="destructive">Destructive</Button>
+            <Button variant="outline">Outline</Button>
+            <Button variant="ghost">Ghost</Button>
+            <Button variant="link">Link</Button>
+          </div>
+        </CodePreview>
       </DocsPageSection>
 
       {/* Installation */}
       <DocsPageSection id="installation" title="Installation">
         <InstallationTabs
-          componentName="Button"
-          dependencies={[
-            '@radix-ui/react-slot',
-            'class-variance-authority',
-            'clsx',
-            'tailwind-merge',
-          ]}
+          componentName="button"
           sourceCode={buttonSourceCode}
         />
       </DocsPageSection>
 
       {/* Usage */}
       <DocsPageSection id="usage" title="Usage">
-        <CodeBlock
-          code={`import { Button } from "@/components/ui/button"
-
-export function ButtonDemo() {
-  return <Button>Button</Button>
-}`}
-          language="tsx"
-          showLineNumbers={false}
-        />
+        <CodePreview code={usageCode}>
+          <Button>Button</Button>
+        </CodePreview>
       </DocsPageSection>
 
       {/* Examples */}
       <DocsPageSection id="examples" title="Examples">
-        <div className="space-y-8">
-          {/* Default */}
-          <ExampleCard title="Default" code={'<Button>Button</Button>'}>
-            <Button>Button</Button>
-          </ExampleCard>
-
-          {/* Secondary */}
-          <ExampleCard
-            title="Secondary"
-            code={'<Button variant="secondary">Secondary</Button>'}
-          >
-            <Button variant="secondary">Secondary</Button>
-          </ExampleCard>
-
-          {/* Destructive */}
-          <ExampleCard
-            title="Destructive"
-            code={'<Button variant="destructive">Destructive</Button>'}
-          >
-            <Button variant="destructive">Destructive</Button>
-          </ExampleCard>
-
-          {/* Outline */}
-          <ExampleCard
-            title="Outline"
-            code={'<Button variant="outline">Outline</Button>'}
-          >
-            <Button variant="outline">Outline</Button>
-          </ExampleCard>
-
-          {/* Ghost */}
-          <ExampleCard
-            title="Ghost"
-            code={'<Button variant="ghost">Ghost</Button>'}
-          >
-            <Button variant="ghost">Ghost</Button>
-          </ExampleCard>
-
-          {/* Link */}
-          <ExampleCard
-            title="Link"
-            code={'<Button variant="link">Link</Button>'}
-          >
-            <Button variant="link">Link</Button>
-          </ExampleCard>
-
-          {/* Icon */}
-          <ExampleCard title="Icon" code={iconDemoCode}>
-            <IconDemo />
-          </ExampleCard>
-
-          {/* With Icon */}
-          <ExampleCard
-            title="With Icon"
-            description="아이콘과 텍스트가 함께 있는 버튼 컴포넌트입니다. 다양한 크기의 아이콘을 지원합니다."
-            code={withIconDemoCode}
-          >
-            <WithIconDemo />
-          </ExampleCard>
-
-          {/* Loading */}
-          <ExampleCard title="Loading" code={loadingDemoCode}>
-            <LoadingDemo />
-          </ExampleCard>
-
-          {/* As Child */}
-          <ExampleCard title="As Child" code={asChildDemoCode}>
-            <AsChildDemo />
-          </ExampleCard>
-        </div>
+        <CodePreview title="Icon" code={iconDemoCode}>
+          <IconDemo />
+        </CodePreview>
+        <CodePreview title="With Icon" code={withIconDemoCode}>
+          <WithIconDemo />
+        </CodePreview>
+        <CodePreview title="Loading" code={loadingDemoCode}>
+          <LoadingDemo />
+        </CodePreview>
+        <CodePreview title="As Child" code={asChildDemoCode}>
+          <AsChildDemo />
+        </CodePreview>
       </DocsPageSection>
     </DocsPage>
   )
