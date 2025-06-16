@@ -1,15 +1,10 @@
-'use client'
-
 import './globals.css'
 
 import { Inter, JetBrains_Mono } from 'next/font/google'
-import { usePathname } from 'next/navigation'
-import { LayoutProvider, useLayout } from '@/contexts/LayoutContext'
 
 import { cn } from '@/lib/utils'
-import { DocsLayout } from '@/components/layout/DocsLayout'
-import { Header } from '@/components/layout/Header'
-import { ThemeProvider } from '@/components/ThemeProvider'
+
+import { Providers } from './providers'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -20,22 +15,6 @@ const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
   variable: '--font-mono',
 })
-
-function AppContent({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname()
-  const { isFullScreen } = useLayout()
-  const isDocsPage = pathname.startsWith('/components')
-
-  return (
-    <div className={cn('container', isFullScreen && 'max-w-none px-8')}>
-      {isDocsPage ? (
-        <DocsLayout>{children}</DocsLayout>
-      ) : (
-        <main>{children}</main>
-      )}
-    </div>
-  )
-}
 
 export default function RootLayout({
   children,
@@ -51,17 +30,7 @@ export default function RootLayout({
           jetbrainsMono.variable
         )}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <LayoutProvider>
-            <Header />
-            <AppContent>{children}</AppContent>
-          </LayoutProvider>
-        </ThemeProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   )

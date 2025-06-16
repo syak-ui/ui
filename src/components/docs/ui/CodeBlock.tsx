@@ -1,34 +1,51 @@
-// components/docs/CodeBlock.tsx (최종 수정본)
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Check, ChevronDown, ChevronUp, Copy } from 'lucide-react'
+import { useTheme } from 'next-themes'
 
 import { Button } from '@/components/ui/Button'
 
 interface CodeBlockProps {
   rawCode: string
-  highlightedCode: string
-  maxLines?: number
+  lightCode: string
+  darkCode: string
+  maxHeight?: number
 }
 
 export function CodeBlock({
   rawCode,
-  highlightedCode,
-  maxLines = 12,
+  lightCode,
+  darkCode,
+  maxHeight = 450,
 }: CodeBlockProps) {
+  const { resolvedTheme } = useTheme()
   const [copied, setCopied] = useState(false)
   const [isExpanded, setIsExpanded] = useState(false)
+  const [mounted, setMounted] = useState(false)
+  const [isTruncated, setIsTruncated] = useState(false)
+
+  const preRef = useRef<HTMLDivElement>(null)
+
+  const highlightedCode =
+    mounted && resolvedTheme === 'dark' ? darkCode : lightCode
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  useEffect(() => {
+    if (preRef.current) {
+      setIsTruncated(preRef.current.scrollHeight > maxHeight)
+    }
+  }, [highlightedCode, maxHeight])
 
   const containerStyle: React.CSSProperties = {
-    maxHeight: isExpanded ? 'none' : `${maxLines * 1.5}rem`,
+    maxHeight: isExpanded ? 'none' : `${maxHeight}px`,
     overflow: 'hidden',
     position: 'relative',
     transition: 'max-height 0.3s ease-in-out',
   }
-
-  const totalLines = rawCode.split('\n').length
-  const isTruncated = totalLines > maxLines
 
   const handleCopy = () => {
     navigator.clipboard.writeText(rawCode)
@@ -37,9 +54,12 @@ export function CodeBlock({
   }
 
   return (
-    <div className="relative group">
+    <div className="relative group" suppressHydrationWarning>
       <div style={containerStyle}>
-        <div dangerouslySetInnerHTML={{ __html: highlightedCode }} />
+        <div
+          ref={preRef}
+          dangerouslySetInnerHTML={{ __html: highlightedCode }}
+        />
         {isTruncated && !isExpanded && (
           <div className="absolute bottom-0 w-full h-24 pointer-events-none bg-gradient-to-t from-background to-transparent" />
         )}
@@ -58,7 +78,7 @@ export function CodeBlock({
             ) : (
               <ChevronDown className="w-4 h-4 mr-2" />
             )}
-            {isExpanded ? '접기' : `${totalLines - maxLines}줄 더 보기`}
+            {isExpanded ? '접기' : '더 보기'}
           </Button>
         </div>
       )}

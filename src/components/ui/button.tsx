@@ -10,16 +10,16 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          'bg-[#0050FF] text-white hover:bg-[#0045E0] focus-visible:ring-[#0050FF] shadow-none border-0 disabled:bg-[#E5E8EB] disabled:text-[#A0AEC0]',
+          'bg-primary text-primary-foreground hover:bg-primary/90 focus-visible:ring-primary shadow-none border-0 disabled:bg-muted disabled:text-muted-foreground',
         secondary:
-          'bg-[#F2F4F6] text-gray-900 hover:bg-[#E5E8EB] focus-visible:ring-gray-500 shadow-none border-0 disabled:bg-[#E5E8EB] disabled:text-[#A0AEC0]',
+          'bg-secondary text-secondary-foreground hover:bg-muted focus-visible:ring-ring shadow-none border-0 disabled:bg-muted disabled:text-muted-foreground',
         outline:
-          'border border-gray-200 bg-white text-gray-900 hover:bg-gray-50 focus-visible:ring-gray-500 shadow-none',
+          'border bg-background text-foreground hover:bg-accent focus-visible:ring-ring shadow-none',
         destructive:
-          'bg-red-500 text-white hover:bg-red-600 focus-visible:ring-red-500 shadow-none border-0',
+          'bg-destructive text-destructive-foreground hover:bg-destructive/90 focus-visible:ring-destructive shadow-none border-0',
         ghost:
-          'text-gray-700 hover:bg-gray-100 focus-visible:ring-gray-500 shadow-none border-0',
-        link: 'text-[#0050FF] underline-offset-4 hover:underline focus-visible:ring-[#0050FF] shadow-none border-0 p-0',
+          'text-accent-foreground hover:bg-accent focus-visible:ring-ring shadow-none border-0',
+        link: 'text-primary underline-offset-4 hover:underline focus-visible:ring-primary shadow-none border-0 p-0',
       },
       size: {
         default: 'h-12 px-6 py-3',

@@ -6,11 +6,11 @@ import { type SidebarNavItem } from '@/constants/docs'
 
 import { cn } from '@/lib/utils'
 
-interface SidebarNavProps {
+interface DocsSidebarNavProps {
   items: SidebarNavItem[]
 }
 
-export function SidebarNav({ items }: SidebarNavProps) {
+export function DocsSidebarNav({ items }: DocsSidebarNavProps) {
   const pathname = usePathname()
 
   if (!items?.length) {

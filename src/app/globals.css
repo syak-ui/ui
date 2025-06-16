@@ -19,6 +19,17 @@
     --accent: 0.97 0 0;
     --accent-foreground: 0.205 0 0;
     --destructive: 0.577 0.245 27.325;
+    --destructive-foreground: 0.985 0 0;
+    --destructive-soft-background: 0.98 0.04 25;
+    --destructive-soft-foreground: 0.43 0.22 25;
+    --success: 0.7 0.18 150;
+    --success-foreground: 0.1 0.15 150;
+    --success-soft-background: 0.97 0.05 150;
+    --success-soft-foreground: 0.4 0.15 150;
+    --info: 0.6 0.18 250;
+    --info-foreground: 0.985 0 0;
+    --info-soft-background: 0.97 0.05 250;
+    --info-soft-foreground: 0.4 0.15 250;
     --border: 0.922 0 0;
     --input: 0.922 0 0;
     --ring: 0.708 0 0;
@@ -43,6 +54,17 @@
     --accent: 0.371 0 0;
     --accent-foreground: 0.985 0 0;
     --destructive: 0.704 0.191 22.216;
+    --destructive-foreground: 0.985 0 0;
+    --destructive-soft-background: 0.25 0.08 20;
+    --destructive-soft-foreground: 0.8 0.18 20;
+    --success: 0.7 0.18 150;
+    --success-foreground: 0.985 0 0;
+    --success-soft-background: 0.25 0.08 150;
+    --success-soft-foreground: 0.8 0.18 150;
+    --info: 0.6 0.18 250;
+    --info-foreground: 0.985 0 0;
+    --info-soft-background: 0.25 0.08 250;
+    --info-soft-foreground: 0.8 0.18 250;
     --border: 1 0 0 / 0.1;
     --input: 1 0 0 / 0.15;
     --ring: 0.556 0 0;
@@ -63,12 +85,7 @@
 @layer components {
   pre.shiki {
     @apply font-mono text-[13px] border rounded-lg overflow-x-auto;
-    background-color: oklch(var(--code-bg));
     padding: 10px 0;
-  }
-
-  .dark pre.shiki {
-    background-color: oklch(var(--code-bg));
   }
 
   pre.shiki code {

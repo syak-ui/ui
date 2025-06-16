@@ -6,10 +6,10 @@ import { Expand, Github, Shrink } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/Button'
-import { SearchCommand } from '@/components/layout/SearchCommand'
-import { ThemeToggle } from '@/components/layout/ThemeToggle'
 
 import { MobileNav } from './MobileNav'
+import { SearchCommand } from './SearchCommand'
+import { ThemeToggle } from './ThemeToggle'
 
 function FullScreenToggle() {
   const { isFullScreen, toggleFullScreen } = useLayout()

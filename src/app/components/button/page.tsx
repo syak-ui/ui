@@ -1,96 +1,182 @@
-import { readDemoCode, readSourceCode } from '@/utils/readSourceCode'
+'use client'
 
-import { Button } from '@/components/ui/Button'
-import { CodePreview } from '@/components/docs/CodePreview'
-import { DocsPage } from '@/components/docs/DocsPage'
-import { DocsPageHeader } from '@/components/docs/DocsPageHeader'
-import { DocsPageSection } from '@/components/docs/DocsPageSection'
-import { DocsPageToc } from '@/components/docs/DocsPageToc'
-import { InstallationTabs } from '@/components/docs/InstallationTabs'
+import { ButtonHTMLAttributes } from 'react'
+import { VariantProps } from 'class-variance-authority'
+import { ChevronRight } from 'lucide-react'
 
-import { AsChildDemo } from './demos/ButtonAsChildDemo'
-import { IconDemo } from './demos/ButtonIconDemo'
-import { LoadingDemo } from './demos/ButtonLoadingDemo'
-import { WithIconDemo } from './demos/ButtonWithIconDemo'
+import { Button, buttonVariants } from '@/components/ui/Button'
+import { DocsPage } from '@/components/docs/layouts/DocsPage'
+import { DocsPageHeader } from '@/components/docs/layouts/DocsPageHeader'
+import { EditOnGitHubButton } from '@/components/docs/ui/EditOnGitHubButton'
+import { PropsTable } from '@/components/docs/ui/PropsTable'
+import { CodePreview } from '@/components/docs/widgets/CodePreview'
+import {
+  ComponentPlayground,
+  type PlaygroundPropDef,
+} from '@/components/docs/widgets/ComponentPlayground'
+import { TableOfContents } from '@/components/docs/widgets/TableOfContents'
 
-export const metadata = {
-  title: 'Button',
-  description: '사용자 액션을 트리거하는 클릭 가능한 버튼 컴포넌트입니다.',
-}
-
-// 목차 구성
-const tocItems = [
-  { id: 'variants', title: 'Variants' },
-  { id: 'installation', title: 'Installation' },
-  { id: 'usage', title: 'Usage' },
-  { id: 'examples', title: 'Examples' },
+const propDefs: PlaygroundPropDef[] = [
+  {
+    name: 'variant',
+    control: {
+      type: 'select',
+      options: [
+        'default',
+        'destructive',
+        'outline',
+        'secondary',
+        'ghost',
+        'link',
+      ],
+    },
+    defaultValue: 'default',
+  },
+  {
+    name: 'size',
+    control: {
+      type: 'select',
+      options: ['default', 'sm', 'lg', 'icon'],
+    },
+    defaultValue: 'default',
+  },
+  {
+    name: 'children',
+    control: { type: 'string' },
+    defaultValue: 'Button',
+  },
+  {
+    name: 'disabled',
+    control: { type: 'boolean' },
+    defaultValue: false,
+  },
 ]
 
-export default async function ButtonDocsPage() {
-  // 페이지에 필요한 모든 소스 코드를 서버에서 미리 읽어옵니다.
-  const buttonSourceCode = await readSourceCode('components/ui/Button.tsx')
-  const usageCode =
-    'import { Button } from "@/components/ui/button"\n\nexport default function Page() {\n  return <Button>Button</Button>\n}'
-  const iconDemoCode = await readDemoCode('button', 'ButtonIconDemo')
-  const withIconDemoCode = await readDemoCode('button', 'ButtonWithIconDemo')
-  const loadingDemoCode = await readDemoCode('button', 'ButtonLoadingDemo')
-  const asChildDemoCode = await readDemoCode('button', 'ButtonAsChildDemo')
+type ButtonProps = VariantProps<typeof buttonVariants> &
+  ButtonHTMLAttributes<HTMLButtonElement>
 
+const toc = [
+  { id: 'usage', title: 'Usage', level: 1 },
+  { id: 'examples', title: 'Examples', level: 1 },
+  { id: 'playground', title: 'Playground', level: 1 },
+  { id: 'props', title: 'Props', level: 1 },
+]
+
+export default function ButtonPage() {
   return (
-    <DocsPage toc={<DocsPageToc items={tocItems} />}>
+    <DocsPage toc={<TableOfContents items={toc} />}>
       <DocsPageHeader
         title="Button"
-        description="사용자 액션을 트리거하는 클릭 가능한 버튼 컴포넌트입니다."
+        description="Displays a button or a link with button styling."
       />
 
-      {/* Variants 미리보기 */}
-      <DocsPageSection id="variants" title="Variants">
-        <CodePreview
-          code={
-            '<Button>Default</Button>\n<Button variant="secondary">Secondary</Button>\n<Button variant="destructive">Destructive</Button>\n<Button variant="outline">Outline</Button>\n<Button variant="ghost">Ghost</Button>\n<Button variant="link">Link</Button>'
-          }
-        >
-          <div className="flex flex-wrap gap-2">
-            <Button>Default</Button>
-            <Button variant="secondary">Secondary</Button>
-            <Button variant="destructive">Destructive</Button>
-            <Button variant="outline">Outline</Button>
-            <Button variant="ghost">Ghost</Button>
-            <Button variant="link">Link</Button>
-          </div>
-        </CodePreview>
-      </DocsPageSection>
+      <div className="pb-12">
+        <EditOnGitHubButton filePath="src/components/ui/Button.tsx" />
+      </div>
 
-      {/* Installation */}
-      <DocsPageSection id="installation" title="Installation">
-        <InstallationTabs
-          componentName="button"
-          sourceCode={buttonSourceCode}
-        />
-      </DocsPageSection>
+      <section id="usage" className="scroll-mt-20">
+        <h2 className="text-2xl font-semibold tracking-tight">Usage</h2>
+        <div className="mt-4">
+          <CodePreview
+            code={
+              "import { Button } from '@/components/ui/Button'\n\nexport default () => <Button>Click me</Button>"
+            }
+          >
+            <Button>Click me</Button>
+          </CodePreview>
+        </div>
+      </section>
 
-      {/* Usage */}
-      <DocsPageSection id="usage" title="Usage">
-        <CodePreview code={usageCode}>
+      <section id="examples" className="space-y-8 scroll-mt-20">
+        <h2 className="text-2xl font-semibold tracking-tight">Examples</h2>
+
+        <CodePreview title="Default" code={'<Button>Button</Button>'}>
           <Button>Button</Button>
         </CodePreview>
-      </DocsPageSection>
 
-      {/* Examples */}
-      <DocsPageSection id="examples" title="Examples">
-        <CodePreview title="Icon" code={iconDemoCode}>
-          <IconDemo />
+        <CodePreview
+          title="Secondary"
+          code={'<Button variant="secondary">Secondary</Button>'}
+        >
+          <Button variant="secondary">Secondary</Button>
         </CodePreview>
-        <CodePreview title="With Icon" code={withIconDemoCode}>
-          <WithIconDemo />
+
+        <CodePreview
+          title="Destructive"
+          code={'<Button variant="destructive">Destructive</Button>'}
+        >
+          <Button variant="destructive">Destructive</Button>
         </CodePreview>
-        <CodePreview title="Loading" code={loadingDemoCode}>
-          <LoadingDemo />
+
+        <CodePreview
+          title="Outline"
+          code={'<Button variant="outline">Outline</Button>'}
+        >
+          <Button variant="outline">Outline</Button>
         </CodePreview>
-        <CodePreview title="As Child" code={asChildDemoCode}>
-          <AsChildDemo />
+
+        <CodePreview
+          title="Ghost"
+          code={'<Button variant="ghost">Ghost</Button>'}
+        >
+          <Button variant="ghost">Ghost</Button>
         </CodePreview>
-      </DocsPageSection>
+
+        <CodePreview title="Link" code={'<Button variant="link">Link</Button>'}>
+          <Button variant="link">Link</Button>
+        </CodePreview>
+
+        <CodePreview
+          title="With Icon"
+          code={`import { ChevronRight } from 'lucide-react'
+
+<Button>
+  <ChevronRight className="w-4 h-4 mr-2" /> Login with Email
+</Button>`}
+        >
+          <Button>
+            <ChevronRight className="w-4 h-4 mr-2" /> Login with Email
+          </Button>
+        </CodePreview>
+      </section>
+
+      <section id="playground" className="scroll-mt-20">
+        <h2 className="text-2xl font-semibold tracking-tight">Playground</h2>
+        <div className="mt-4">
+          <ComponentPlayground componentName="Button" propDefs={propDefs}>
+            {(props: ButtonProps) => <Button {...props} />}
+          </ComponentPlayground>
+        </div>
+      </section>
+
+      <section id="props" className="scroll-mt-20">
+        <h2 className="text-2xl font-semibold tracking-tight">Props</h2>
+        <div className="mt-4">
+          <PropsTable
+            data={[
+              {
+                name: 'variant',
+                type: '"default" | "destructive" | "outline" | "secondary" | "ghost" | "link"',
+                defaultValue: '"default"',
+                description: 'The variant of the button.',
+              },
+              {
+                name: 'size',
+                type: '"default" | "sm" | "lg" | "icon"',
+                defaultValue: '"default"',
+                description: 'The size of the button.',
+              },
+              {
+                name: 'asChild',
+                type: 'boolean',
+                defaultValue: 'false',
+                description:
+                  'Render as a child component, inheriting its props.',
+              },
+            ]}
+          />
+        </div>
+      </section>
     </DocsPage>
   )
 }
