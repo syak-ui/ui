@@ -5,21 +5,23 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center whitespace-nowrap rounded-xl text-base font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98] w-full sm:w-auto',
+  'inline-flex items-center justify-center whitespace-nowrap rounded-xl text-base font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98] w-full sm:w-auto',
   {
     variants: {
       variant: {
         default:
-          'bg-[#0050FF] text-white hover:bg-[#0045E0] focus-visible:ring-[#0050FF] shadow-none border-0 disabled:bg-[#E5E8EB] disabled:text-[#A0AEC0]',
-        secondary:
-          'bg-[#F2F4F6] text-gray-900 hover:bg-[#E5E8EB] focus-visible:ring-gray-500 shadow-none border-0 disabled:bg-[#E5E8EB] disabled:text-[#A0AEC0]',
-        outline:
-          'border border-gray-200 bg-white text-gray-900 hover:bg-gray-50 focus-visible:ring-gray-500 shadow-none',
+          'bg-primary text-primary-foreground hover:bg-primary/90 focus-visible:ring-primary shadow-none border-0 disabled:bg-muted disabled:text-muted-foreground',
         destructive:
-          'bg-red-500 text-white hover:bg-red-600 focus-visible:ring-red-500 shadow-none border-0',
+          'bg-destructive text-destructive-foreground hover:bg-destructive/90 focus-visible:ring-destructive shadow-none border-0',
+        outline:
+          'border bg-background text-foreground hover:bg-accent focus-visible:ring-ring shadow-none',
+        secondary:
+          'bg-secondary text-secondary-foreground hover:bg-muted focus-visible:ring-ring shadow-none border-0',
         ghost:
-          'text-gray-700 hover:bg-gray-100 focus-visible:ring-gray-500 shadow-none border-0',
-        link: 'text-[#0050FF] underline-offset-4 hover:underline focus-visible:ring-[#0050FF] shadow-none border-0 p-0',
+          'text-accent-foreground hover:bg-accent focus-visible:ring-ring shadow-none border-0',
+        link: 'text-primary underline-offset-4 hover:underline focus-visible:ring-primary shadow-none border-0 p-0',
+        glass:
+          'border border-border/40 bg-background/95 backdrop-blur-sm text-foreground hover:bg-background/90 hover:border-border/60 focus-visible:ring-ring shadow-sm',
       },
       size: {
         default: 'h-12 px-6 py-3',

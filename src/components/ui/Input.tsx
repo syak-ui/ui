@@ -22,7 +22,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             htmlFor={inputId}
             className={cn(
               'text-sm font-semibold leading-tight mb-2 block transition-colors duration-200',
-              hasError ? 'text-[#FF3B30]' : 'text-gray-900'
+              hasError ? 'text-destructive' : 'text-foreground'
             )}
           >
             {label}
@@ -32,14 +32,15 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           id={inputId}
           type={type}
           className={cn(
-            'flex h-12 w-full rounded-xl bg-white px-4 py-3 text-base text-gray-900 placeholder:text-gray-500',
+            'flex h-12 w-full rounded-xl bg-background px-4 py-3 text-base text-foreground placeholder:text-muted-foreground',
             'transition-all duration-200 ease-in-out',
             'shadow-none',
-            'border border-[#E5E8EB]',
-            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0050FF] focus-visible:ring-offset-0 focus-visible:border-[#0050FF]',
+            'border border-input',
+            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0 focus-visible:border-primary',
+            'active:scale-[0.995]',
             hasError &&
-              'border-[#FF3B30] focus-visible:ring-[#FF3B30] focus-visible:border-[#FF3B30]',
-            'disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-gray-50',
+              'border-destructive focus-visible:ring-destructive focus-visible:border-destructive',
+            'disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-muted',
             className
           )}
           ref={ref}
@@ -49,7 +50,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           <p
             className={cn(
               'text-sm mt-2 leading-tight',
-              hasError ? 'text-[#FF3B30]' : 'text-gray-600'
+              hasError ? 'text-destructive' : 'text-muted-foreground'
             )}
           >
             {error || helperText}

@@ -33,6 +33,20 @@ module.exports = {
         destructive: {
           DEFAULT: 'oklch(var(--destructive))',
           foreground: 'oklch(var(--destructive-foreground))',
+          'soft-background': 'oklch(var(--destructive-soft-background))',
+          'soft-foreground': 'oklch(var(--destructive-soft-foreground))',
+        },
+        success: {
+          DEFAULT: 'oklch(var(--success))',
+          foreground: 'oklch(var(--success-foreground))',
+          'soft-background': 'oklch(var(--success-soft-background))',
+          'soft-foreground': 'oklch(var(--success-soft-foreground))',
+        },
+        info: {
+          DEFAULT: 'oklch(var(--info))',
+          foreground: 'oklch(var(--info-foreground))',
+          'soft-background': 'oklch(var(--info-soft-background))',
+          'soft-foreground': 'oklch(var(--info-soft-foreground))',
         },
         muted: {
           DEFAULT: 'oklch(var(--muted))',
