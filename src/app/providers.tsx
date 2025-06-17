@@ -2,11 +2,11 @@
 
 import { usePathname } from 'next/navigation'
 import { LayoutProvider, useLayout } from '@/contexts/LayoutContext'
+import { ThemeProvider } from '@/provider/ThemeProvider'
 
 import { cn } from '@/lib/utils'
 import DocsLayout from '@/components/docs/layouts/DocsLayout'
 import { Header } from '@/components/layout/Header/Header'
-import { ThemeProvider } from '@/components/ThemeProvider'
 
 function AppContent({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
