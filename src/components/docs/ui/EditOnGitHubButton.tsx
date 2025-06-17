@@ -1,30 +1,24 @@
-import React from 'react'
+import Link from 'next/link'
 import { Github } from 'lucide-react'
 
-import { cn } from '@/lib/utils'
-import { buttonVariants } from '@/components/ui/Button'
+import { Button } from '@/components/ui/Button' // 우리의 Button 컴포넌트 사용
 
 interface EditOnGitHubButtonProps {
   filePath: string
 }
 
-const GITHUB_EDIT_URL_PREFIX = 'https://github.com/syak-ui/ui/edit/main/'
+// TODO: GitHub 저장소 URL을 환경변수 등으로 관리
+const GITHUB_REPO_URL = 'https://github.com/syak-ui/ui/blob/main'
 
 export function EditOnGitHubButton({ filePath }: EditOnGitHubButtonProps) {
-  const editUrl = `${GITHUB_EDIT_URL_PREFIX}${filePath}`
+  const href = `${GITHUB_REPO_URL}/${filePath}`
 
   return (
-    <a
-      href={editUrl}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={cn(
-        buttonVariants({ variant: 'outline', size: 'sm' }),
-        'gap-2'
-      )}
-    >
-      <Github className="w-4 h-4" />
-      Edit this page on GitHub
-    </a>
+    <Link href={href} target="_blank" rel="noopener noreferrer">
+      <Button variant="outline" size="sm" className="gap-2">
+        <Github className="w-4 h-4" />
+        Edit this page on GitHub
+      </Button>
+    </Link>
   )
 }

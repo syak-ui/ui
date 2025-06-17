@@ -22,7 +22,7 @@ export function DocsSidebarNav({ items }: DocsSidebarNavProps) {
       {items.map((item, index) => {
         return (
           <div key={index} className={cn('grid gap-1')}>
-            <h4 className="px-2 py-1 text-sm font-bold rounded-md">
+            <h4 className="px-2 py-1 text-sm font-bold rounded-md text-muted-foreground">
               {item.title}
             </h4>
             {item.items?.length && (
@@ -35,7 +35,7 @@ export function DocsSidebarNav({ items }: DocsSidebarNavProps) {
                       'flex items-center gap-2 rounded-md px-2 py-1.5 text-sm transition-colors hover:bg-accent hover:text-accent-foreground',
                       pathname === child.href
                         ? 'bg-accent font-semibold text-accent-foreground'
-                        : 'text-muted-foreground'
+                        : 'text-foreground'
                     )}
                   >
                     {child.title}

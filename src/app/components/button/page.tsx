@@ -1,6 +1,7 @@
 'use client'
 
 import { ButtonHTMLAttributes } from 'react'
+import { docsConfig } from '@/constants/docs'
 import { VariantProps } from 'class-variance-authority'
 import { ChevronRight } from 'lucide-react'
 
@@ -14,11 +15,13 @@ import {
   ComponentPlayground,
   type PlaygroundPropDef,
 } from '@/components/docs/widgets/ComponentPlayground'
+import { DocsPager } from '@/components/docs/widgets/DocsPager'
 import { TableOfContents } from '@/components/docs/widgets/TableOfContents'
 
 const propDefs: PlaygroundPropDef[] = [
   {
     name: 'variant',
+    displayName: '종류',
     control: {
       type: 'select',
       options: [
@@ -28,25 +31,26 @@ const propDefs: PlaygroundPropDef[] = [
         'secondary',
         'ghost',
         'link',
+        'glass',
       ],
     },
     defaultValue: 'default',
   },
   {
     name: 'size',
-    control: {
-      type: 'select',
-      options: ['default', 'sm', 'lg', 'icon'],
-    },
+    displayName: '크기',
+    control: { type: 'select', options: ['default', 'sm', 'lg', 'icon'] },
     defaultValue: 'default',
   },
   {
     name: 'children',
+    displayName: '내용',
     control: { type: 'string' },
     defaultValue: 'Button',
   },
   {
     name: 'disabled',
+    displayName: '비활성화',
     control: { type: 'boolean' },
     defaultValue: false,
   },
@@ -56,26 +60,38 @@ type ButtonProps = VariantProps<typeof buttonVariants> &
   ButtonHTMLAttributes<HTMLButtonElement>
 
 const toc = [
-  { id: 'usage', title: 'Usage', level: 1 },
-  { id: 'examples', title: 'Examples', level: 1 },
-  { id: 'playground', title: 'Playground', level: 1 },
-  { id: 'props', title: 'Props', level: 1 },
+  { id: 'playground', title: '플레이그라운드', level: 1 },
+  { id: 'usage', title: '사용법', level: 1 },
+  { id: 'examples', title: '활용 예시', level: 1 },
+  { id: 'props', title: 'API 레퍼런스', level: 1 },
 ]
 
 export default function ButtonPage() {
   return (
     <DocsPage toc={<TableOfContents items={toc} />}>
       <DocsPageHeader
-        title="Button"
-        description="Displays a button or a link with button styling."
+        title="버튼"
+        description="클릭 가능한 버튼을 표시하거나, 다른 요소에 버튼 스타일을 적용합니다."
       />
 
-      <div className="pb-12">
+      <div className="flex items-center justify-between">
         <EditOnGitHubButton filePath="src/components/ui/Button.tsx" />
+        <DocsPager toc={docsConfig.sidebarNav} />
       </div>
 
+      <section id="playground" className="scroll-mt-20">
+        <h2 className="text-2xl font-semibold tracking-tight">
+          플레이그라운드
+        </h2>
+        <div className="mt-4">
+          <ComponentPlayground componentName="Button" propDefs={propDefs}>
+            {(props: ButtonProps) => <Button {...props} />}
+          </ComponentPlayground>
+        </div>
+      </section>
+
       <section id="usage" className="scroll-mt-20">
-        <h2 className="text-2xl font-semibold tracking-tight">Usage</h2>
+        <h2 className="text-2xl font-semibold tracking-tight">사용법</h2>
         <div className="mt-4">
           <CodePreview
             code={
@@ -88,26 +104,7 @@ export default function ButtonPage() {
       </section>
 
       <section id="examples" className="space-y-8 scroll-mt-20">
-        <h2 className="text-2xl font-semibold tracking-tight">Examples</h2>
-
-        <CodePreview title="Default" code={'<Button>Button</Button>'}>
-          <Button>Button</Button>
-        </CodePreview>
-
-        <CodePreview
-          title="Secondary"
-          code={'<Button variant="secondary">Secondary</Button>'}
-        >
-          <Button variant="secondary">Secondary</Button>
-        </CodePreview>
-
-        <CodePreview
-          title="Destructive"
-          code={'<Button variant="destructive">Destructive</Button>'}
-        >
-          <Button variant="destructive">Destructive</Button>
-        </CodePreview>
-
+        <h2 className="text-2xl font-semibold tracking-tight">활용 예시</h2>
         <CodePreview
           title="Outline"
           code={'<Button variant="outline">Outline</Button>'}
@@ -129,10 +126,9 @@ export default function ButtonPage() {
         <CodePreview
           title="With Icon"
           code={`import { ChevronRight } from 'lucide-react'
-
-<Button>
-  <ChevronRight className="w-4 h-4 mr-2" /> Login with Email
-</Button>`}
+          <Button>
+            <ChevronRight className="w-4 h-4 mr-2" /> Login with Email
+          </Button>`}
         >
           <Button>
             <ChevronRight className="w-4 h-4 mr-2" /> Login with Email
@@ -140,17 +136,8 @@ export default function ButtonPage() {
         </CodePreview>
       </section>
 
-      <section id="playground" className="scroll-mt-20">
-        <h2 className="text-2xl font-semibold tracking-tight">Playground</h2>
-        <div className="mt-4">
-          <ComponentPlayground componentName="Button" propDefs={propDefs}>
-            {(props: ButtonProps) => <Button {...props} />}
-          </ComponentPlayground>
-        </div>
-      </section>
-
       <section id="props" className="scroll-mt-20">
-        <h2 className="text-2xl font-semibold tracking-tight">Props</h2>
+        <h2 className="text-2xl font-semibold tracking-tight">API 레퍼런스</h2>
         <div className="mt-4">
           <PropsTable
             data={[

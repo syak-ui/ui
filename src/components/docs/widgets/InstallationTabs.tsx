@@ -10,11 +10,11 @@ interface InstallationTabsProps {
 }
 
 const highlight = async (code: string, lang: 'bash' | 'tsx') => {
-  const [light, dark] = await Promise.all([
-    codeToHtml(code, { lang, theme: 'solarized-light' }),
-    codeToHtml(code, { lang, theme: 'one-dark-pro' }),
-  ])
-  return { light, dark }
+  const themedCode = await codeToHtml(code, {
+    lang,
+    theme: 'css-variables',
+  })
+  return themedCode
 }
 
 export async function InstallationTabs({
@@ -34,7 +34,7 @@ export async function InstallationTabs({
   const npmCommand = `npm install ${depsString}`
   const yarnCommand = `yarn add ${depsString}`
 
-  const [cli, pnpm, npm, yarn, source] = await Promise.all([
+  const [cliCode, pnpmCode, npmCode, yarnCode, srcCode] = await Promise.all([
     highlight(cliCommand, 'bash'),
     highlight(pnpmCommand, 'bash'),
     highlight(npmCommand, 'bash'),
@@ -42,13 +42,13 @@ export async function InstallationTabs({
     highlight(sourceCode, 'tsx'),
   ])
 
-  const codeBlocks = {
-    cli: { ...cli, raw: cliCommand },
-    pnpm: { ...pnpm, raw: pnpmCommand },
-    npm: { ...npm, raw: npmCommand },
-    yarn: { ...yarn, raw: yarnCommand },
-    source: { ...source, raw: sourceCode },
+  const codes = {
+    cli: { highlighted: cliCode, raw: cliCommand },
+    pnpm: { highlighted: pnpmCode, raw: pnpmCommand },
+    npm: { highlighted: npmCode, raw: npmCommand },
+    yarn: { highlighted: yarnCode, raw: yarnCommand },
+    source: { highlighted: srcCode, raw: sourceCode },
   }
 
-  return <InstallationTabsClient codeBlocks={codeBlocks} />
+  return <InstallationTabsClient codes={codes} />
 }

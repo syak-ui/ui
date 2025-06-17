@@ -6,14 +6,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 
 import { CodeBlock } from '../ui/CodeBlock'
 
-type CodeBlockData = {
-  light: string
-  dark: string
+interface CodeBlockData {
+  highlighted: string
   raw: string
 }
 
 interface InstallationTabsClientProps {
-  codeBlocks: {
+  codes: {
     cli: CodeBlockData
     pnpm: CodeBlockData
     npm: CodeBlockData
@@ -22,9 +21,7 @@ interface InstallationTabsClientProps {
   }
 }
 
-export function InstallationTabsClient({
-  codeBlocks,
-}: InstallationTabsClientProps) {
+export function InstallationTabsClient({ codes }: InstallationTabsClientProps) {
   return (
     <Tabs defaultValue="cli" className="w-full">
       <TabsList className="grid w-full grid-cols-2">
@@ -34,9 +31,9 @@ export function InstallationTabsClient({
 
       <TabsContent value="cli" className="mt-4 space-y-4">
         <CodeBlock
-          lightCode={codeBlocks.cli.light}
-          darkCode={codeBlocks.cli.dark}
-          rawCode={codeBlocks.cli.raw}
+          lightCode={codes.cli.highlighted}
+          darkCode={codes.cli.highlighted}
+          rawCode={codes.cli.raw}
         />
       </TabsContent>
 
@@ -53,23 +50,23 @@ export function InstallationTabsClient({
             </TabsList>
             <TabsContent value="pnpm" className="mt-2">
               <CodeBlock
-                lightCode={codeBlocks.pnpm.light}
-                darkCode={codeBlocks.pnpm.dark}
-                rawCode={codeBlocks.pnpm.raw}
+                lightCode={codes.pnpm.highlighted}
+                darkCode={codes.pnpm.highlighted}
+                rawCode={codes.pnpm.raw}
               />
             </TabsContent>
             <TabsContent value="npm" className="mt-2">
               <CodeBlock
-                lightCode={codeBlocks.npm.light}
-                darkCode={codeBlocks.npm.dark}
-                rawCode={codeBlocks.npm.raw}
+                lightCode={codes.npm.highlighted}
+                darkCode={codes.npm.highlighted}
+                rawCode={codes.npm.raw}
               />
             </TabsContent>
             <TabsContent value="yarn" className="mt-2">
               <CodeBlock
-                lightCode={codeBlocks.yarn.light}
-                darkCode={codeBlocks.yarn.dark}
-                rawCode={codeBlocks.yarn.raw}
+                lightCode={codes.yarn.highlighted}
+                darkCode={codes.yarn.highlighted}
+                rawCode={codes.yarn.raw}
               />
             </TabsContent>
           </Tabs>
@@ -80,9 +77,9 @@ export function InstallationTabsClient({
             2. Copy and paste the following code into your project.
           </h4>
           <CodeBlock
-            lightCode={codeBlocks.source.light}
-            darkCode={codeBlocks.source.dark}
-            rawCode={codeBlocks.source.raw}
+            lightCode={codes.source.highlighted}
+            darkCode={codes.source.highlighted}
+            rawCode={codes.source.raw}
           />
         </div>
       </TabsContent>

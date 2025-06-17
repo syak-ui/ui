@@ -12,7 +12,7 @@ export function DocsPageHeader({
   visual,
 }: DocsPageHeaderProps) {
   return (
-    <div className="relative mb-12 text-center">
+    <div className="relative text-center">
       <div className="absolute inset-0 -z-10 bg-gradient-to-b from-background via-transparent to-transparent" />
       <h1 className="text-4xl font-extrabold tracking-tighter sm:text-5xl lg:text-6xl">
         {title}
