@@ -15,12 +15,14 @@ const Switch = React.forwardRef<
 
       'transition-all duration-300 ease-in-out',
 
-      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0050FF] focus-visible:ring-offset-2',
+      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2',
       'disabled:cursor-not-allowed disabled:opacity-50',
 
-      'data-[state=checked]:bg-[#0050FF] data-[state=unchecked]:bg-gray-200',
+      'data-[state=checked]:bg-primary data-[state=unchecked]:bg-gray-200',
+      'dark:data-[state=unchecked]:bg-gray-700',
 
-      'hover:data-[state=unchecked]:bg-gray-300 hover:data-[state=checked]:bg-[#0045E0]',
+      'hover:data-[state=unchecked]:bg-gray-300 hover:data-[state=checked]:bg-primary/90',
+      'dark:hover:data-[state=unchecked]:bg-gray-600',
       className
     )}
     {...props}
